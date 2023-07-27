@@ -1,0 +1,22 @@
+### Test working
+GET http://localhost:3000/
+
+{}
+
+### Send single message v1
+POST http://localhost:3000/api/v1/send
+Content-Type: application/json
+
+{
+    "to": "6285211931486",
+    "body": "Test v1"
+}
+
+### Send Blast v1
+POST http://localhost:3000/api/v1/blast
+Content-Type: application/json
+
+{
+    "cids": "6285211931486,6285760048071",
+    "text": "Test API whatsapp ITPro v1"
+}
