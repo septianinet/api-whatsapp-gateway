@@ -21,6 +21,8 @@ router.route("/send").post(async (req, res) => {
 });
 
 router.route("/blast").post(async (req, res) => {
+  console.log("body:", req.body);
+  console.log("data:", req.body);
   try {
     await botService.sendBlastMessage(req.body.data);
     res.json({

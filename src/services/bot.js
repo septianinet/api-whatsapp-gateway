@@ -47,6 +47,9 @@ const sendBlastMessage = async (payload) => {
   const json = decrypt(payload);
   const data = JSON.parse(json);
 
+  console.log("json:", json);
+  console.log("data:", data);
+
   const numbers = data.cids.split(",");
 
   for (let i = 0; i < numbers.length; i++) {
