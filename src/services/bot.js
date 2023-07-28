@@ -67,7 +67,7 @@ const sendBlastMessage = async (data) => {
         text: json.text,
       };
       console.log(payload);
-      // await sendMessage(payload);
+      await sendMessage(payload);
     }
   } catch (error) {
     console.log(error);
