@@ -34,12 +34,12 @@ const isJson = (str) => {
   }
 };
 
-const decrypt = (encrypted) => {
+const decrypt = async (encrypted) => {
   console.log("enc:", JSON.stringify(encrypted));
-  let message = crypto.AES.decrypt(encrypted, "p4$$1234");
+  let message = await crypto.AES.decrypt(encrypted, "p4$$1234");
   console.log("message:", JSON.parse(message.toString(crypto.enc.Utf8)));
-
-  return message.toString(crypto.enc.Utf8);
+  let json = await JSON.parse(message.toString(crypto.enc.Utf8));
+  return json;
 };
 
 const sendMessage = async (payload) => {
@@ -54,7 +54,7 @@ const sendBlastMessage = async (data) => {
   try {
     const parseJson = data;
     // The problem
-    const json = decrypt(parseJson.data);
+    const json = await decrypt(parseJson.data);
 
     console.log("json:", json);
 
