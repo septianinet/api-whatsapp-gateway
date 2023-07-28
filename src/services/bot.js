@@ -36,8 +36,8 @@ const isJson = (str) => {
 
 const decrypt = (encrypted) => {
   console.log("enc:", JSON.stringify(encrypted));
-  let message = crypto.AES.decrypt(JSON.stringify(encrypted), "p4$$1234");
-  // console.log("message:", message);
+  let message = crypto.AES.decrypt(encrypted, "p4$$1234");
+  console.log("message:", JSON.parse(message.toString(crypto.enc.Utf8)));
 
   return message.toString(crypto.enc.Utf8);
 };
