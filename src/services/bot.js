@@ -35,9 +35,7 @@ const isJson = (str) => {
 };
 
 const decrypt = async (encrypted) => {
-  console.log("enc:", JSON.stringify(encrypted));
   let message = await crypto.AES.decrypt(encrypted, "p4$$1234");
-  console.log("message:", JSON.parse(message.toString(crypto.enc.Utf8)));
   let json = await JSON.parse(message.toString(crypto.enc.Utf8));
   return json;
 };
@@ -56,8 +54,6 @@ const sendBlastMessage = async (data) => {
     // The problem
     const json = await decrypt(parseJson.data);
 
-    console.log("json:", json);
-
     const numbers = json.cids.split(",");
 
     for (let i = 0; i < numbers.length; i++) {
@@ -66,7 +62,6 @@ const sendBlastMessage = async (data) => {
         to: number,
         text: json.text,
       };
-      console.log(payload);
       await sendMessage(payload);
     }
   } catch (error) {
