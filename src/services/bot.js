@@ -39,7 +39,7 @@ const decrypt = (encrypted) => {
   let message = crypto.AES.decrypt(encrypted, `${process.env.ENCRYPT_KEY}`);
   // console.log("message:", message);
 
-  return JSON.parse(message.toString(crypto.enc.Utf8));
+  return message.toString(crypto.enc.Utf8);
 };
 
 const sendMessage = async (payload) => {
@@ -54,7 +54,7 @@ const sendBlastMessage = async (data) => {
   try {
     const parseJson = data;
     // The problem
-    const json = decrypt(parseJson.data);
+    const json = JSON.parse(decrypt(parseJson.data));
 
     console.log("json:", json);
 
