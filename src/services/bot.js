@@ -53,6 +53,7 @@ const sendMessage = async (payload) => {
 
 const sendBlastMessage = async (data) => {
   try {
+    console.log(data);
     const parseJson = JSON.parse(data);
     // The problem
     const json = decrypt(parseJson.data);
