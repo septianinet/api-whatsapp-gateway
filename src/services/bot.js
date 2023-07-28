@@ -28,11 +28,10 @@ const formatNumber = (number) => {
 
 const isJson = (str) => {
   try {
-    JSON.parse(str);
+    return JSON.parse(str) && !!str;
   } catch (e) {
     return false;
   }
-  return true;
 };
 
 const decrypt = (encrypted) => {
@@ -54,9 +53,9 @@ const sendMessage = async (payload) => {
 const sendBlastMessage = async (data) => {
   try {
     console.log(data);
-    const parseJson = JSON.parse(data);
+    // const parseJson = JSON.parse(data);
     // The problem
-    const json = decrypt(parseJson.data);
+    const json = decrypt(data.data);
 
     console.log("json:", json);
 
@@ -68,7 +67,8 @@ const sendBlastMessage = async (data) => {
         to: number,
         text: json.text,
       };
-      await sendMessage(payload);
+      console.log(payload);
+      // await sendMessage(payload);
     }
   } catch (error) {
     console.log(error);
