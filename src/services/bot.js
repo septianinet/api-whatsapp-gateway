@@ -26,7 +26,17 @@ const formatNumber = (number) => {
   return number;
 };
 
+const isValidJSON = (obj) => {
+  try {
+    JSON.parse(obj);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 const decrypt = (encrypted, toJSON = false) => {
+  // let decData = CryptoJS.enc.Base64.parse(encrypted).toString(CryptoJS.enc.Utf8)
   let message = crypto.AES.decrypt(encrypted, `${process.env.ENCRYPT_KEY}`);
   if (toJSON) {
     return JSON.parse(message);
@@ -44,10 +54,10 @@ const sendMessage = async (payload) => {
 };
 
 const sendBlastMessage = async (payload) => {
-  const json = decrypt(payload);
+  const json = isValidJSON(payload)
+    ? decrypt(payload, true)
+    : decrypt(JSON.parse(payload));
   const data = JSON.parse(json);
-
-  console.log("json:", json);
   console.log("data:", data);
 
   const numbers = data.cids.split(",");
@@ -66,4 +76,5 @@ module.exports = {
   client,
   sendMessage,
   sendBlastMessage,
+  isValidJSON,
 };
