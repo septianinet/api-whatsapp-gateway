@@ -8,8 +8,16 @@ POST http://localhost:3000/api/v1/send
 Content-Type: application/json
 
 {
-    "to": "6285211931486",
-    "body": "Test v1"
+    "to": "U2FsdGVkX1/9Qg9OdVvLMLHdpIa8PPhPvScjp2iRn4E=",
+    "text": "U2FsdGVkX19olUPBWEyKiyASXi/feNtG4ZRgBuGC/DgjO0sLfG6pdYCCCW3V23gO"
+}
+
+### Send encrypted data v1
+POST http://localhost:3000/api/v1/send
+Content-Type: application/json
+
+{
+    "data": "U2FsdGVkX183DFb0xWMBZhlzMr4TlbudB2jZl/zkScghzDnp/ijGnuSoDH8Eo21oUxHzq8aPJpyAAx7n4noghgxxYDrP/oBBEWkIScT/pko="
 }
 
 ### Send Blast v1
@@ -17,6 +25,5 @@ POST http://localhost:3000/api/v1/blast
 Content-Type: application/json
 
 {
-    "cids": "6285211931486,6285760048071",
-    "text": "Test API whatsapp ITPro v1"
+    "data": "U2FsdGVkX1+ED69Fc9fIg2tw61tQwcP8VS77Lxx7226FNvfRt7b+cdL/zr2VJIe214F8POASwMQAx7ut8ipXd8BR5DKZfwMclppytvYb8P9rA3SZ9GzG6eHX2D3ii5Ty"
 }
