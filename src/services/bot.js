@@ -39,7 +39,7 @@ const decrypt = (encrypted) => {
   let message = crypto.AES.decrypt(encrypted, `${process.env.ENCRYPT_KEY}`);
   console.log("message:", message);
 
-  return JSON.parse(message.toString(crypto.enc.Utf8));
+  return message.toString(crypto.enc.Utf8);
 };
 
 const sendMessage = async (payload) => {
