@@ -21,9 +21,13 @@ router.route("/send").post(async (req, res) => {
 });
 
 router.route("/blast").post(async (req, res) => {
-  console.log(req.body);
   try {
     await botService.sendBlastMessage(req.body);
+    // await botService.sendBlastMessage(
+    //   JSON.stringify({
+    //     data: "U2FsdGVkX18XYVNp20eX86uOPWZisKhgU8pteF3YBK4Fc2jQdbFFHgjt/D56vr4fulZcAxghJcZchsISR0OTTHdf4ztc6bI1zHtwr5AlfxM4nL1EQ8PSIqmgjucKMnlq",
+    //   })
+    // );
     res.json({
       status: "success",
     });

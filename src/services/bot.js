@@ -26,23 +26,21 @@ const formatNumber = (number) => {
   return number;
 };
 
-const isValidJSON = (obj) => {
+const isJson = (str) => {
   try {
-    JSON.parse(obj);
-    return true;
+    JSON.parse(str);
   } catch (e) {
     return false;
   }
+  return true;
 };
 
-const decrypt = (encrypted, toJSON = false) => {
-  // let decData = CryptoJS.enc.Base64.parse(encrypted).toString(CryptoJS.enc.Utf8)
+const decrypt = (encrypted) => {
+  console.log("enc:", encrypted);
   let message = crypto.AES.decrypt(encrypted, `${process.env.ENCRYPT_KEY}`);
-  if (toJSON) {
-    return JSON.parse(message);
-  }
+  // console.log("message:", message);
 
-  return message.toString(crypto.enc.Utf8);
+  return JSON.parse(message.toString(crypto.enc.Utf8));
 };
 
 const sendMessage = async (payload) => {
@@ -53,22 +51,26 @@ const sendMessage = async (payload) => {
   }
 };
 
-const sendBlastMessage = async (payload) => {
-  const json = isValidJSON(payload)
-    ? decrypt(payload, true)
-    : decrypt(JSON.parse(payload));
-  const data = JSON.parse(json);
-  console.log("data:", data);
+const sendBlastMessage = async (data) => {
+  try {
+    const parseJson = JSON.parse(data);
+    // The problem
+    const json = decrypt(parseJson.data);
 
-  const numbers = data.cids.split(",");
+    console.log("json:", json);
 
-  for (let i = 0; i < numbers.length; i++) {
-    const number = numbers[i];
-    const payload = {
-      to: number,
-      text: data.text,
-    };
-    await sendMessage(payload);
+    const numbers = json.cids.split(",");
+
+    for (let i = 0; i < numbers.length; i++) {
+      const number = numbers[i];
+      const payload = {
+        to: number,
+        text: json.text,
+      };
+      await sendMessage(payload);
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -76,5 +78,4 @@ module.exports = {
   client,
   sendMessage,
   sendBlastMessage,
-  isValidJSON,
 };
