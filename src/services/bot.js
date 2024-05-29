@@ -1,28 +1,22 @@
-const { Client, LocalAuth } = require("whatsapp-web.js");
+const venom = require('venom-bot');
 const qrcode = require("qrcode-terminal");
 const crypto = require("crypto-js");
 
-const wwebVersion = '2.2412.54';
+const wwebVersion = '2.2407.3';
 
-const client = new Client({
-  puppeteer: {
-    headless: true,
-    args: ["--no-sandbox"],
-  },
-  authStrategy: new LocalAuth(),
-  webVersionCache: {
-    type: 'remote',
-    remotePath: `https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/${wwebVersion}.html`,
-  },
-});
+let waClient;
 
-client.on("qr", (qr) => {
-  qrcode.generate(qr, { small: true });
-});
-
-client.on("ready", () => {
-  console.log("Client is ready!");
-});
+function waInit() {
+  venom.create({
+    session: 'ot-whatsapp',
+    puppeteerOptions: {
+      args: ["--no-sandbox"],
+    },
+    logQR: true
+  }).then(function(client) {
+    waClient = client;
+  })
+}
 
 const formatNumber = (number) => {
   if (!number.endsWith("@c.us")) {
@@ -48,7 +42,8 @@ const decrypt = async (encrypted) => {
 
 const sendMessage = async (payload) => {
   try {
-    await client.sendMessage(formatNumber(payload.to), payload.text);
+    console.log(payload);
+    await waClient.sendText(payload.to, payload.text);
   } catch (error) {
     console.log(error);
   }
@@ -77,7 +72,7 @@ const sendBlastMessage = async (data) => {
 };
 
 module.exports = {
-  client,
+  waInit,
   sendMessage,
   sendBlastMessage,
 };

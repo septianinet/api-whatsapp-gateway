@@ -1,8 +1,8 @@
 require("dotenv").config();
 
+const bot = require("./services/bot")
 const express = require("express");
 const v1Router = require("./v1/routes");
-const { client } = require("./services/bot");
 
 const app = express();
 
@@ -15,6 +15,6 @@ app.get("/", (req, res) => {
 app.use("/api/v1", v1Router);
 
 app.listen(PORT, () => {
-  client.initialize();
+  bot.waInit()
   console.log(`API is listening on port ${PORT}`);
 });
