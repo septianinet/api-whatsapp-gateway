@@ -43,7 +43,7 @@ const decrypt = async (encrypted) => {
 const sendMessage = async (payload) => {
   try {
     console.log(payload);
-    await waClient.sendText(payload.to, payload.text);
+    await waClient.sendText(formatNumber(payload.to), payload.text);
   } catch (error) {
     console.log(error);
   }
