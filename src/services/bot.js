@@ -18,6 +18,10 @@ function waInit() {
   })
 }
 
+const restartService = async () => {
+  return await waClient.restartService();
+}
+
 const formatNumber = (number) => {
   if (!number.endsWith("@c.us")) {
     number += "@c.us";
@@ -25,6 +29,10 @@ const formatNumber = (number) => {
 
   return number;
 };
+
+const formatGroupNumber = (number, groupId) => {
+  return `${groupId}@g.us`;
+}
 
 const isJson = (str) => {
   try {
@@ -40,14 +48,35 @@ const decrypt = async (encrypted) => {
   return json;
 };
 
+const screenshot = async () => {
+  return await waClient.waPage.screenshot({path: 'screenshot.png'});
+}
+
 const sendMessage = async (payload) => {
   try {
-    console.log(payload);
     await waClient.sendText(formatNumber(payload.to), payload.text);
   } catch (error) {
     console.log(error);
   }
 };
+
+const getAllGroups = async () => {
+  let groups = await waClient.getAllChatsGroups()
+  return groups.map(function (group) {
+    return {
+      groupId: group.id.user,
+      groupName: group.name,
+    }
+  });
+}
+
+const sendGroupMessage = async(payload) => {
+  try {
+    await waClient.sendText(formatGroupNumber(payload.to, payload.groupId), payload.text);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const sendBlastMessage = async (data) => {
   try {
@@ -75,4 +104,8 @@ module.exports = {
   waInit,
   sendMessage,
   sendBlastMessage,
+  sendGroupMessage,
+  getAllGroups,
+  screenshot,
+  restartService
 };
